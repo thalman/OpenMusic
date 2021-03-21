@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+
+import subprocess, os
+import json
+from base64 import b64decode
+from sys import stdout, argv
+from zipfile import ZipFile
+from xml.etree import ElementTree
+
+
+from pprint import pprint
+
+class ScoreParser:
+    def __init__(self, filename):
+        self.filename = filename
+        self.args = []
+    def readMeta(self):
+        try:
+            env =  os.environ.copy()
+            env["HOME"] = "/opt/mscore-home"
+            cmd = ['mscore3', '--score-media']
+            devnull = open(os.devnull, 'w')
+            return json.loads(subprocess.check_output(cmd + self.args + [self.filename], env=env, stderr=devnull))
+        except:
+            return None
+
+    def pngs(self, resolution="96"):
+        self.args = ['--image-resolution', resolution]
+        score = self.readMeta()
+        if score:
+            print(json.dumps(score["pngs"]))
+            exit(0)
+        exit(1)
+
+    def thumbnail(self):
+        #try:
+            zip = ZipFile(self.filename, "r")
+            thumb = zip.open('Thumbnails/thumbnail.png', "r")
+            stdout.buffer.write(thumb.read())
+            exit(0)
+        #except:
+            exit(1)
+
+    def pdf(self):
+        try:
+            pdf = self.readMeta()['pdf']
+            stdout.buffer.write(b64decode(pdf))
+            exit(0)
+        except:
+            exit(1)
+
+    def metadata(self):
+        try:
+            print(json.dumps(self.readMeta()['metadata']))
+            exit(0)
+        except:
+            exit(1)
+    def copyright(self):
+        try:
+            zip = ZipFile(self.filename)
+            xml = zip.open('META-INF/container.xml')
+            container = xml.read()
+            tree = ElementTree.fromstring(container)
+            rootfiles = tree.findall('rootfiles/rootfile')
+            path = rootfiles[0].attrib["full-path"]
+            xml = zip.open(path)
+            score = xml.read()
+            tree = ElementTree.fromstring(score)
+            for meta in tree.findall('Score/metaTag'):
+                if meta.attrib["name"] == "copyright":
+                    print(json.dumps(meta.text))
+                    exit(0)
+            print("false")
+            exit(0)
+        except Exception as e:
+            print("false")
+            exit(1)
+
+if len(argv) != 3:
+    print("mscore-extract what /file.mscz")
+    exit(1)
+
+
+command=argv[1]
+msfile=argv[2]
+converter = ScoreParser(msfile)
+if command == "pdf":
+    converter.pdf()
+elif command == "metadata":
+    converter.metadata()
+elif command == "thumbnail":
+    converter.thumbnail()
+elif command == "pngs":
+    converter.pngs()
+elif command == "copyright":
+    converter.copyright()
+else:
+    print("Invalid command " + command)
+    exit(1)
