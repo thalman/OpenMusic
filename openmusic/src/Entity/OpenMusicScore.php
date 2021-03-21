@@ -150,6 +150,7 @@ class OpenMusicScore extends ContentEntityBase implements ContentEntityInterface
         try {
             $file = File::load($file_id);
             $metadata = $this->scoreMeta($file);
+            $copyright = $this->scoreCopyright($file);
             if (metadata == null) {
                 throw new Exception("Failed to extract metadata from score");
             }
@@ -164,7 +165,6 @@ class OpenMusicScore extends ContentEntityBase implements ContentEntityInterface
             $this->set("title", $metadata["title"]);
             $this->set("number_of_instruments", count($metadata["parts"]));
             $this->set("file", $file_id);
-            $copyright = $this->scoreCopyright($file);
             $this->set("copyright", $copyright);
             $this->set("free", $this->isFree($copyright));
             $this->save();
@@ -192,15 +192,12 @@ class OpenMusicScore extends ContentEntityBase implements ContentEntityInterface
         // get $file from this entity
         $path = drupal_realpath($file->getFileUri());
         $cmd = "/usr/bin/mscore-extract metadata \"" . $path . "\"";
-        error_log("cmd: " . $cmd);
         $json = shell_exec("HOME=/opt/mscore-home " . $cmd);
         if ($json == null) {
-            error_log("Error while parsing score metadata: score-meta failed");
             return null;
         }
 
         try {
-            error_log("json: " . print_r($json,true));
             return json_decode($json, TRUE);
         } catch (Exception $e) {
             log_error("Error while parsing score metadata: " . $e->getMessage());
@@ -226,12 +223,12 @@ class OpenMusicScore extends ContentEntityBase implements ContentEntityInterface
     {
         $path = drupal_realpath($file->getFileUri());
         $cmd = "/usr/bin/mscore-extract copyright \"" . $path . "\"";
-        error_log("cmd: " . $cmd);
-        $copyright = exec($cmd);
+        $copyright = shell_exec($cmd);
         if ($copyright == null) {
             error_log("Error while extracting copyright");
             return "";
         }
+        $copyright = json_decode($copyright);
         return trim($copyright);
     }
 
