@@ -1,0 +1,73 @@
+/**
+ * @file
+ * Subtheme specific CSS.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+#header {
+    background-image: url("../images/backgroundsheet.jpg");
+}
+
+#header .navbar-brand img {
+    width: 200px;
+}
+
+.score-card {
+    padding-left: 1em;
+    padding-right: 1em;
+    margin: 5px;
+}
+
+.score-card-body {
+    padding-left: 0em;
+    padding-right: 0em;
+}
+
+.score-image {
+    width: 100%;
+    background-color: white;
+}
+
+#openmusicscorepages {
+    background-color: #e0e0e0;
+    padding: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+/* menu styling */
+.nav-link--myscores,
+.nav-link--scores,
+.nav-link--user,
+.nav-link--user-logout,
+.nav-link--user-login
+{
+    font-size: 15pt;
+    font-weight: 500;
+    background-color: #00000015;
+    color: black;
+}
+
+.nav-link--myscores:hover,
+.nav-link--scores:hover,
+.nav-link--user:hover,
+.nav-link--user-logout:hover,
+.nav-link--user-login:hover
+{
+    font-size: 15pt;
+    font-weight: 500;
+    background-color: #00000010;
+    color: #505050;
+}
+
+
+.segnoseparator {
+    height: 46px;
+    padding: 14px;
+    background-color: #00000015;
+}
