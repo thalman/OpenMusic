@@ -1,0 +1,9 @@
+name: Openmusic Module
+description: Custom module for openmusic
+package: Custom
+
+type: module
+core: 8.x
+
+dependencies:
+  - 'drupal:node'

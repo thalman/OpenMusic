@@ -1,0 +1,9 @@
+{#
+the path('<current>')|stplit('/')|last can be used to get score id
+otherways we have scoreid variable
+#}
+
+<div {{ attributes }}>
+  <a href="/openmusic/api/score/{{ scoreid }}/mscz">musescore</a>
+  <a href="/openmusic/api/score/{{ scoreid }}/pdf">pdf</a>
+</div>

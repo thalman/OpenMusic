@@ -1,0 +1,83 @@
+openmusic.upload_form:
+  path: '/openmusic/upload-form'
+  defaults:
+    _title: 'Upload Score'
+    _form: '\Drupal\openmusic\Form\UploadForm'
+  requirements:
+    _permission: 'access content'
+
+# json api
+openmusic.api.list:
+  path: '/openmusic/api/list'
+  defaults:
+    _title: 'List Scores'
+    _controller: 'Drupal\openmusic\Controller\ApiController::List'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+
+openmusic.api.score:
+  path: '/openmusic/api/score/{score}/{what}'
+  defaults:
+    _title: 'Get Score Details'
+    _controller: 'Drupal\openmusic\Controller\ApiController::Get'
+    what: ''
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+
+openmusic.api.bookmark.get:
+  path: '/openmusic/api/bookmark/{score}'
+  defaults:
+    _title: 'Get Score Bookmark'
+    _controller: 'Drupal\openmusic\Controller\ApiController::getBookmark'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+
+openmusic.api.bookmark.all:
+  path: '/openmusic/api/bookmarks'
+  defaults:
+    _title: 'Get All Users Bookmarks'
+    _controller: 'Drupal\openmusic\Controller\ApiController::getAllBookmarks'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+
+openmusic.api.bookmark.put:
+  path: '/openmusic/api/bookmark/{score}'
+  defaults:
+    _title: 'Set Score Bookmark'
+    _controller: 'Drupal\openmusic\Controller\ApiController::setBookmark'
+  methods: [PUT]
+  requirements:
+    _access: 'TRUE'
+
+openmusic.api.bookmark.delete:
+  path: '/openmusic/api/bookmark/{score}'
+  defaults:
+    _title: 'Set Score Bookmark'
+    _controller: 'Drupal\openmusic\Controller\ApiController::deleteBookmark'
+  methods: [DELETE]
+  requirements:
+    _access: 'TRUE'
+
+# example https://www.drupal.org/docs/drupal-apis/entity-api/creating-a-content-entity-type-in-drupal-8
+# score entity page
+entity.openmusicscore.canonical:
+  path: '/openmusic/score/{openmusicscore}'
+  defaults:
+    _entity_view: 'openmusicscore'
+    _title: "OpenMusic Score"
+  requirements:
+    _permission: 'access content'
+
+entity.openmusicscore.collection:
+  path: '/openmusic/scores'
+  defaults:
+  # Calls the list controller, defined in the annotation of the contact entity.
+    _entity_list: 'openmusicscore'
+    _title: 'Score list'
+  requirements:
+  # Checks for permission directly.
+    _permission: 'access content'

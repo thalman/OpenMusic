@@ -1,0 +1,13 @@
+view openmusic score:
+  title: 'View Score Permission'
+  description: 'Gives permission to view and download score.'
+
+manage openmusic score:
+  title: 'Add/Update/Delete Own Score Permission'
+  description: 'Gives permission manage own scores.'
+  restrict access: true
+
+delete openmusic score:
+  title: 'Delete Any Score Permission'
+  description: 'Gives permission to delete any (not only own) score.'
+  restrict access: true

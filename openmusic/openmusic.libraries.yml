@@ -1,0 +1,8 @@
+openmusic-score:
+  version: 1.0
+  js:
+    js/score.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once

@@ -1,0 +1,51 @@
+<?php
+/**
+  * @file
+  * Openmusic module
+  */
+
+/**
+ * Implements hook_theme().
+ */
+function openmusic_theme($existing, $type, $theme, $path) {
+  return [
+    'openmusicscorepages' => [
+      'variables' => [
+        'attributes' => NULL,
+       ],
+    ],
+
+    'openmusicscoredownload' => [
+      'variables' => [
+        'attributes' => NULL,
+        'scoreid' => NULL,
+      ],
+    ],
+  ];
+}
+
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function openmusic_views_data_alter(array &$data) {
+    $data["openmusicscore"]["openmusicscore_free_works"] = [
+        "title" => t("Show Own Scores"),
+        "filter" => [
+            "title" => t("Show Own Scores"),
+            "help" => t("Provides a filter to show scores that belongs to the current user."),
+            "field" => "owner",
+            "id" => "openmusic_score_owner_filter"
+        ]
+    ];
+    $data["openmusicscore"]["openmusicscore_bookmarks"] = [
+        "title" => t("Show Bookmarked Scores"),
+        "filter" => [
+            "title" => t("Show Bookmarked Scores"),
+            "help" => t("Provides a filter to show scores that belongs to the current user."),
+            "field" => "owner",
+            "id" => "openmusic_score_bookmarks_filter"
+        ]
+    ];
+}
+?>
