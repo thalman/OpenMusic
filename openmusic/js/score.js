@@ -1,3 +1,5 @@
+'use strict';
+
 class Score {
     queryScore()
     {
@@ -31,7 +33,7 @@ class Score {
     }
 }
 
-score = new Score()
+var score = new Score();
 
 Drupal.behaviors.scorelistBehavior = {
     attach: function (context, settings) {
